@@ -39,6 +39,10 @@ return state;
 
 const bookList = (state = [], action) => {
   // TODO - set book list with data from server
+ if(action.type === 'ADD_BOOK') {
+// combine existing state (array) with new book (action.payload)
+return [...state,action.payload]; // similar to .push
+ }
   return state;
 }
 
