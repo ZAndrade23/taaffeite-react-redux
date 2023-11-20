@@ -42,8 +42,12 @@ const bookList = (state = [], action) => {
  if(action.type === 'ADD_BOOK') {
 // combine existing state (array) with new book (action.payload)
 return [...state,action.payload]; // similar to .push
+ } else if(action.type === 'SET_BOOK_LIST') {
+// if recieving a full list, replace list
+  return action.payload;
  }
-  return state;
+ /// ! Note: for reducers, you will generally have an ADD action type or a SET action type.
+  return state; 
 }
 
 const reduxStore = createStore(

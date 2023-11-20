@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-function BookForm() {
+// import { useDispatch } from 'react-redux';
+import axios from 'axios'
+
+function BookForm(props) {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
-const dispatch = useDispatch();
+// const dispatch = useDispatch();
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -11,11 +13,22 @@ const dispatch = useDispatch();
     console.log(`Adding book`, {title, author});
 
     // TODO - axios request to server to add book
-let action = {
-   type: 'ADD_BOOK', 
-   payload: {title: title, author: author}
-};
-dispatch(action);
+
+//! THIS BLOCK OF CODE ONLY ADDS TO REDUX, NOT THE DATABASE
+    // let action = {
+//    type: 'ADD_BOOK', 
+//    payload: {title: title, author: author}
+// };
+// dispatch(action);
+
+
+//sendatatoserver
+axios.post('/books',{title,author}).then((response) => {
+  props.getBookList();
+}).catch((error) => {
+  console.log('error posting book', error);
+  alert('SOmething went wrong');
+})
   };
 
   return (

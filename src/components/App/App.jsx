@@ -5,6 +5,9 @@ import ListName from '../ListName/ListName';
 import { useSelector, useDispatch } from 'react-redux';
 import './App.css';
 
+import axios from 'axios';
+import { useEffect } from 'react';
+
 function App() {
   // Connect a local variable to the reducer
 const count = useSelector(store => store.count);
@@ -27,6 +30,21 @@ const resetCount = () => {
   dispatch(action)
 }
 // TODO - GET Book List from server
+const getBookList = () => {
+  axios.get('/books').then((response) => {
+    const action = { type: 'SET_BOOK_LIST', payload: response.data};
+    dispatch(action);
+  }).catch((error) => {
+  console.error('error getting bookList',error);
+    alert('something went wrong!');
+  }) 
+}
+useEffect(() => {
+  getBookList();
+}, []);
+
+
+
 
   return (
     <div className="App">
@@ -43,7 +61,7 @@ const resetCount = () => {
       <h4>Name Your Book List</h4>
       <ListName/>
       <main>
-        <BookForm />
+        <BookForm getBookList={getBookList}/>
         <BookList />
       </main>
     </div>
